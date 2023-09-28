@@ -71,4 +71,3 @@ export const {
   loadCartFromStorage, // Nueva acción para cargar el carrito desde AsyncStorage
 } = cartSlice.actions;
 export default cartSlice.reducer;
-

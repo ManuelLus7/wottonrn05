@@ -11,16 +11,21 @@ import {
 const CartScreen = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
+  const products = useSelector((state) => state.products.products);
+
+  const getProductById = (productId) => {
+    return products.find((product) => product.id === productId);
+  };
 
   const handleIncreaseQuantity = (item) => {
-    dispatch(increaseCartItemQuantity(item.id));
+    const newQuantity = item.quantity + 1;
+    dispatch(increaseCartItemQuantity({ itemId: item.id, quantity: newQuantity }));
   };
 
   const handleDecreaseQuantity = (item) => {
     if (item.quantity > 1) {
       dispatch(decreaseCartItemQuantity(item.id));
     } else {
-      // Muestra una alerta si el usuario intenta reducir la cantidad a menos de 1
       Alert.alert('Aviso', '¿Eliminar este producto del carrito?', [
         { text: 'Cancelar', style: 'cancel' },
         {
@@ -37,19 +42,22 @@ const CartScreen = () => {
   };
 
   const handleClearCart = () => {
-    // Muestra una alerta de confirmación antes de vaciar el carrito
     Alert.alert('Confirmación', '¿Seguro que deseas vaciar el carrito?', [
       { text: 'Cancelar', style: 'cancel' },
       {
         text: 'Vaciar',
-        onPress: () => dispatch(clearCart()),
+        onPress: async () => {
+          dispatch(clearCart());
+          // await AsyncStorage.removeItem(CART_STORAGE_KEY); // Asegúrate de importar AsyncStorage si es necesario
+        },
         style: 'destructive',
       },
     ]);
   };
 
   const calculateSubtotal = (item) => {
-    return item.price * item.quantity;
+    const product = getProductById(item.id);
+    return product ? product.price * item.quantity : 0;
   };
 
   const calculateTotal = () => {
@@ -58,10 +66,8 @@ const CartScreen = () => {
 
   const handleCheckout = () => {
     if (cartItems.length === 0) {
-      // Muestra una alerta si el carrito está vacío al intentar pagar
       Alert.alert('Aviso', 'El carrito está vacío.');
     } else {
-      // Aquí puedes implementar la lógica de pago real
       console.log('Procesando el pago...');
     }
   };
@@ -73,13 +79,19 @@ const CartScreen = () => {
       ) : (
         <FlatList
           data={cartItems}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item) => (item.id ? item.id.toString() : '')}
           renderItem={({ item }) => (
             <View style={styles.itemContainer}>
-              <Image source={{ uri: item.image }} style={styles.itemImage} />
+              {getProductById(item.id) && (
+                <Image source={{ uri: getProductById(item.id).image }} style={styles.itemImage} />
+              )}
               <View style={styles.itemInfo}>
-                <Text style={styles.itemName}>{item.name}</Text>
-                <Text style={styles.itemPrice}>Precio: ${item.price.toFixed(2)}</Text>
+                <Text style={styles.itemName}>
+                  {getProductById(item.id) ? getProductById(item.id).name : 'Producto no encontrado'}
+                </Text>
+                <Text style={styles.itemPrice}>
+                  Precio: ${getProductById(item.id) ? getProductById(item.id).price.toFixed(2) : '0.00'}
+                </Text>
                 <View style={styles.quantityContainer}>
                   <Button title="-" onPress={() => handleDecreaseQuantity(item)} />
                   <Text style={styles.itemQuantity}>{item.quantity}</Text>
