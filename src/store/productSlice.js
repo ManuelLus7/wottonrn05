@@ -8,6 +8,7 @@ const productSlice = createSlice({
     categoryFilter: 'All',
     priceFilter: 1000,
     cart: [],
+    searchTerm: '',
   },
   reducers: {
     setProducts: (state, action) => {
@@ -26,6 +27,9 @@ const productSlice = createSlice({
     removeFromCart: (state, action) => {
       state.cart = state.cart.filter((product) => product.id !== action.payload);
     },
+    setSearchTerm: (state, action) => {
+      state.searchTerm = action.payload;
+    },
   },
 });
 
@@ -35,5 +39,6 @@ export const {
   setPriceFilter,
   addToCart,
   removeFromCart,
+  setSearchTerm,
 } = productSlice.actions;
 export default productSlice.reducer;

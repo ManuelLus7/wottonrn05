@@ -1,29 +1,22 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React from 'react';
 import { View, ScrollView, StyleSheet, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  setProducts,
-  setCategoryFilter,
-  setPriceFilter,
-  setSearchTerm, // Agrega setSearchTerm para gestionar el término de búsqueda
-} from '../store/productSlice';
+import { setSearchTerm } from '../store/productSlice';
 import { ProductCard, SearchBar } from '../components';
 import { products } from '../data/ProductsData';
 import { Ionicons } from '@expo/vector-icons';
-import { Picker } from '@react-native-picker/picker';
-import Slider from '@react-native-community/slider';
 import { addToCart as addToCartAction } from '../store/cartSlice';
 
 const ProductScreen = () => {
   const dispatch = useDispatch();
-  const searchTerm = useSelector((state) => state.products.searchTerm); // Obtén el término de búsqueda
+  const searchTerm = useSelector((state) => state.products.searchTerm);
 
   const handleSearch = (term) => {
-    dispatch(setSearchTerm(term)); // Establece el término de búsqueda
+    dispatch(setSearchTerm(term));
   };
 
   const clearSearch = () => {
-    dispatch(setSearchTerm('')); // Limpia el término de búsqueda
+    dispatch(setSearchTerm(''));
   };
 
   const showProductDetails = (selectedProduct) => {
@@ -31,7 +24,7 @@ const ProductScreen = () => {
   };
 
   const handleAddToCart = (product) => {
-    dispatch(addToCartAction(product));
+    dispatch(addToCartAction(product)); // Agrega el producto al carrito
   };
 
   return (
@@ -54,7 +47,7 @@ const ProductScreen = () => {
             product={product}
             onPress={() => {
               showProductDetails(product);
-              handleAddToCart(product);
+              handleAddToCart(product); // Agrega el producto al carrito al hacer clic
             }}
           />
         ))}

@@ -13,27 +13,22 @@ const cartSlice = createSlice({
       const newItem = action.payload;
       const existingItem = state.items.find((item) => item.id === newItem.id);
 
+      // Si el producto ya está en el carrito, agrego la cantidad
       if (existingItem) {
-        // Si el producto ya está en el carrito, verifica el límite de cantidad
-        if (existingItem.quantity + newItem.quantity <= 10) {
-          existingItem.quantity += newItem.quantity;
-        } else {
-          // Puedes mostrar un mensaje de error o realizar otra acción
-          console.log('Se ha alcanzado el límite de cantidad para este producto.');
-        }
+        existingItem.quantity += newItem.quantity;
       } else {
-        // Si es un producto nuevo, agrégalo al carrito
+        // Si es un producto nuevo, lo agrego al carrito
         state.items.push(newItem);
       }
 
-      // Guardar el carrito actualizado en AsyncStorage
+      // Guardo el carrito actualizado en AsyncStorage
       AsyncStorage.setItem(CART_STORAGE_KEY, JSON.stringify(state.items));
     },
     removeFromCart: (state, action) => {
       const itemId = action.payload;
       state.items = state.items.filter((item) => item.id !== itemId);
 
-      // Guardar el carrito actualizado en AsyncStorage
+      // Guardo el carrito actualizado en AsyncStorage
       AsyncStorage.setItem(CART_STORAGE_KEY, JSON.stringify(state.items));
     },
     updateCartItemQuantity: (state, action) => {
@@ -44,17 +39,17 @@ const cartSlice = createSlice({
         itemToUpdate.quantity = quantity;
       }
 
-      // Guardar el carrito actualizado en AsyncStorage
+      // Guardo el carrito actualizado en AsyncStorage
       AsyncStorage.setItem(CART_STORAGE_KEY, JSON.stringify(state.items));
     },
     clearCart: (state) => {
       state.items = [];
 
-      // Limpiar el carrito en AsyncStorage
+      // Limpio el carrito en AsyncStorage
       AsyncStorage.removeItem(CART_STORAGE_KEY);
     },
     loadCartFromStorage: (state, action) => {
-      // Cargar el carrito desde AsyncStorage cuando se inicie la aplicación
+      // Cargo el carrito desde AsyncStorage cuando se inicie la aplicación
       const savedCart = action.payload;
       if (savedCart) {
         state.items = savedCart;
@@ -68,6 +63,6 @@ export const {
   removeFromCart,
   updateCartItemQuantity,
   clearCart,
-  loadCartFromStorage, // Nueva acción para cargar el carrito desde AsyncStorage
+  loadCartFromStorage,
 } = cartSlice.actions;
 export default cartSlice.reducer;
