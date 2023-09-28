@@ -10,7 +10,7 @@ const App = () => {
   useEffect(() => {
     const loadCartData = async () => {
       try {
-        const cartData = await AsyncStorage.getItem('cart'); // Asegúrate de que 'cart' sea la clave correcta
+        const cartData = await AsyncStorage.getItem('cart');
         const parsedCartData = JSON.parse(cartData);
         if (parsedCartData) {
           store.dispatch(loadCartFromStorage(parsedCartData));

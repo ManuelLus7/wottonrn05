@@ -3,8 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const productSlice = createSlice({
   name: 'products',
   initialState: {
-    products: [], // Inicializa con un arreglo vacío
-    filteredProducts: [], // Inicializa con un arreglo vacío
+    products: [], // Inicio con un arreglo vacío
+    filteredProducts: [], // Inicio con un arreglo vacío
     categoryFilter: 'All',
     priceFilter: 1000,
     cart: [],
@@ -13,7 +13,7 @@ const productSlice = createSlice({
   reducers: {
     setProducts: (state, action) => {
       state.products = action.payload;
-      state.filteredProducts = action.payload; // Actualiza los productos filtrados
+      state.filteredProducts = action.payload; // Actualizo los productos filtrados
     },
     setCategoryFilter: (state, action) => {
       state.categoryFilter = action.payload;
