@@ -24,7 +24,8 @@ const ProductScreen = () => {
   };
 
   const handleAddToCart = (product) => {
-    dispatch(addToCartAction(product)); // Agrega el producto al carrito
+    console.log(`Agregando producto al carrito: ${product.name}`);
+    dispatch(addToCartAction(product)); // Agregar el producto al carrito
   };
 
   return (
@@ -47,7 +48,7 @@ const ProductScreen = () => {
             product={product}
             onPress={() => {
               showProductDetails(product);
-              handleAddToCart(product); // Agrega el producto al carrito al hacer clic
+              handleAddToCart(product); // Agregar el producto al carrito al hacer clic
             }}
           />
         ))}

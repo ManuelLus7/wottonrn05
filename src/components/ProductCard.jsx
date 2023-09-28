@@ -3,7 +3,6 @@ import { View, Text, Image, StyleSheet, Button } from "react-native";
 import { connect } from 'react-redux';
 import { Colors } from "../constants/Colors";
 
-// Define el componente ProductCard
 const ProductCard = ({ product, addToCart }) => {
   return (
     <View style={styles.container}>
@@ -62,7 +61,7 @@ const styles = StyleSheet.create({
   },
 });
 
-// Mapea acciones de Redux a las props del componente
+// Mapeo acciones de Redux a las props del componente
 const mapDispatchToProps = (dispatch) => ({
   addToCart: (product) => dispatch({ type: 'ADD_TO_CART', payload: product }),
 });
