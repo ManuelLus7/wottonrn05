@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "wottonrn05",
-    "slug": "wottonrn05",
+    "name": "ExpoRNStore",
+    "slug": "ExpoRNStore",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
